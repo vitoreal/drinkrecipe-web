@@ -1,5 +1,8 @@
 import { createRouter, createWebHistory } from 'vue-router';
 
+import axios from 'axios'
+import VueAxios from 'vue-axios'
+
 // Paginas de acesso
 import LoginPage from './../views/base/LoginPage.vue';
 import RegistrarPage from './../views/base/RegistrarPage.vue';
@@ -23,9 +26,10 @@ const routes = [
   { path: '/reset-senha/:token', name: 'ResetSenhaPage', component: ResetSenha  },
   // Precisa de autorizacao
   
-  { path: '/error-page', name: 'ErrorPage', component: ErrorPage  },
-  //{ path: '/home', name: 'HomePage', component: HomePage, beforeEnter: checkAuthAll },
+  { path: '/error-page', name: 'ErrorPage', component: ErrorPage, beforeEnter: checkAuthAll  },
+  //{ path: '/home', name: 'HomePage', component: HomePage, beforeEnter: checkAuth },
   { path: '/home', name: 'HomePage', component: HomePage, beforeEnter: checkAuthAll },
+  { path: '/home/:idUser', name: 'HomePageGoogleAuth', component: HomePage, beforeEnter: checkGoolgeAuthAll },
 
   // MEUS DADOS
   { path: '/dados/meus-dados', name: 'MeusDadosPage', component: MeusDadosPage },  
@@ -41,30 +45,82 @@ const router = createRouter({
 export default router
 
 function checkAuthAll(to, from, next) {
-  if(checkAuth(next)){
-    var role = retornaRole();
-    if(role != 'ROOT_ADMIN' && role != 'SUPER_ADMIN' && role != 'EMPRESA_ADMIN' && role != 'ADVOGADO_ADMIN' && role != 'CLIENTE_ADMIN'){
+
+  // Verifica se tem autorizacao para entrar na pagina
+  if(!localStorage.getItem('user') || !localStorage.getItem('token')){
+    next("/");
+  } else {
+    console.log(3)
+    // Verifica as permissoes do usuario
+    var user = JSON.parse(localStorage.getItem('user'));
+    console.log(user);
+    var role = user.roles[0].name;
+
+    if(role != 'ROOT_ADMIN' && role != 'SUPER_ADMIN' && role != 'USER_PADRAO'){
       next("/error-page");
     } else {
       next();
     }
+    
   }
+
 }
 
-// Verifica se tem autorizacao para entrar na pagina
-function checkAuth(next) 
-{
-  if(!localStorage.getItem('user') || !localStorage.getItem('token')){
+function checkGoolgeAuthAll(to, from, next) {
 
-    // Verifica se o login foi feito atraves do google
-    
+  if(to.params.idUser){
+    validaDadosLoginGoogle(to.params.idUser, next);
+  } else {
     next("/");
   } 
-  return true;
-
+  
 }
 
-function retornaRole(){
-  var user = JSON.parse(localStorage.getItem('user'));
-  return user.roles[0].name;
+import store from './../vuex';
+
+function validaDadosLoginGoogle(idUser, next){
+  
+
+  const response = axios.post('validaDadosLoginGoogle', {
+      idUser: idUser,
+  }).then(function (response) {
+    
+    
+    if(typeof(response) != 'undefined' && response != null && response !== undefined){
+      
+      if(response.data.type == 'SUCESSO'){
+     
+        localStorage.setItem('user', JSON.stringify(response.data.user));
+        localStorage.setItem('token', JSON.stringify(response.data.token));
+    
+        store.dispatch('user', response.data.user);
+
+        var role = response.data.user.roles[0].name;
+        
+        if(role != 'ROOT_ADMIN' && role != 'SUPER_ADMIN' && role != 'USER_PADRAO'){
+          next("/error-page");
+        } else {
+          next("/home");
+          //this.$router.push('/home');
+        }
+
+      } else {
+        this.msgSistema = response.data.mensagem;
+        this.tipoMsgSistema = 'alert-danger';
+      }
+    
+    }
+
+  }).catch((error) => {
+    console.log(error);
+    if(error.response.data.type == 'ERROR') {
+        this.msgSistema = error.response.data.mensagem;
+        this.tipoMsgSistema = 'alert-danger';
+    }          
+  });
+
+  
+
+
+
 }
