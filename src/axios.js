@@ -10,11 +10,13 @@ if(localStorage.getItem('token')){
 
 axios.defaults.baseURL = 'http://localhost:8000/api/';
 
-//axios.defaults.baseURL = 'https://grupodablio.com.br/advweb/app/prod/public/api/';
-
 axios.defaults.headers.common['Authorization'] = AUTH_TOKEN;
 
-// errorComposer will compose a handleGlobally function
+//axios.defaults.headers.post['Content-Type'] ='application/json;charset=utf-8';
+//axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+//axios.defaults.headers.post["Access-Control-Allow-Origin"] = "*";
+
+//axios.defaults.withCredentials = true;
 
 axios.interceptors.response.use(
     response => response,

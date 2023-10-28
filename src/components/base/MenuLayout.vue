@@ -1,43 +1,62 @@
 <template>
-    <div>
+    <div id="layoutSidenav_nav" @click="closeSidebar">
         <!-- Sidebar Start -->
     <aside class="left-sidebar">
       <!-- Sidebar scroll-->
       <div>
         <div class="brand-logo d-flex align-items-center justify-content-between">
-          <a href="./index.html" class="text-nowrap logo-img">
-            <img src="../assets/images/logos/dark-logo.svg" width="180" alt="" />
-          </a>
+          <router-link v-if="permissaoMenuPadraoMixin()" class="text-nowrap logo-img" to="/home">
+            <img src="@/assets/images/logos/DrinkRecipeLogo.png" width="180" alt="" />
+          </router-link>
           <div class="close-btn d-xl-none d-block sidebartoggler cursor-pointer" id="sidebarCollapse">
             <i class="ti ti-x fs-8"></i>
           </div>
         </div>
 <!-- Sidebar navigation-->
-<nav class="sidebar-nav scroll-sidebar" data-simplebar="">
+<nav class="sidebar-nav scroll-sidebar nav-toggler" data-simplebar="">
+  <span class="navbar-toggler-icon"></span>
           <ul id="sidebarnav">
+            <!-- 
             <li class="nav-small-cap">
               <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
-              <span class="hide-menu">Home</span>
+              <span class="hide-menu">Geral</span>
             </li>
             <li class="sidebar-item">
-              <a class="sidebar-link" href="./index.html" aria-expanded="false">
-                <span>
-                  <i class="ti ti-layout-dashboard"></i>
-                </span>
-                <span class="hide-menu">Dashboard</span>
-              </a>
+              <router-link v-if="permissaoMenuPadraoMixin()" class="sidebar-link" to="/home">
+                  <span>
+                    <i class="ti ti-layout-dashboard"></i>
+                  </span>
+                  <span class="hide-menu">Buscar drinks</span>
+              </router-link>
             </li>
+            <li class="sidebar-item">
+              <router-link v-if="permissaoMenuPadraoMixin()" class="sidebar-link" to="/home">
+                  <span>
+                    <i class="ti ti-layout-dashboard"></i>
+                  </span>
+                  <span class="hide-menu">Meus favoritos</span>
+              </router-link>
+            </li>
+            
             <li class="nav-small-cap">
               <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
-              <span class="hide-menu">UI COMPONENTS</span>
+              <span class="hide-menu">Meus drinks</span>
             </li>
             <li class="sidebar-item">
-              <a class="sidebar-link" href="./ui-buttons.html" aria-expanded="false">
-                <span>
-                  <i class="ti ti-article"></i>
-                </span>
-                <span class="hide-menu">Buttons</span>
-              </a>
+              <router-link v-if="permissaoMenuPadraoMixin()" class="sidebar-link" to="/home">
+                  <span>
+                    <i class="ti ti-layout-dashboard"></i>
+                  </span>
+                  <span class="hide-menu">Cadastrar drinks</span>
+              </router-link>
+            </li>
+            <li class="sidebar-item">
+              <router-link v-if="permissaoMenuPadraoMixin()" class="sidebar-link" to="/home">
+                  <span>
+                    <i class="ti ti-layout-dashboard"></i>
+                  </span>
+                  <span class="hide-menu">Visualizar drinks</span>
+              </router-link>
             </li>
             <li class="sidebar-item">
               <a class="sidebar-link" href="./ui-alerts.html" aria-expanded="false">
@@ -71,18 +90,6 @@
                 <span class="hide-menu">Typography</span>
               </a>
             </li>
-            <li class="nav-small-cap">
-              <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
-              <span class="hide-menu">AUTH</span>
-            </li>
-            <li class="sidebar-item">
-              <a class="sidebar-link" href="./authentication-login.html" aria-expanded="false">
-                <span>
-                  <i class="ti ti-login"></i>
-                </span>
-                <span class="hide-menu">Login</span>
-              </a>
-            </li>
             <li class="sidebar-item">
               <a class="sidebar-link" href="./authentication-register.html" aria-expanded="false">
                 <span>
@@ -91,38 +98,65 @@
                 <span class="hide-menu">Register</span>
               </a>
             </li>
+            -->
             <li class="nav-small-cap">
               <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
-              <span class="hide-menu">EXTRA</span>
+              <span class="hide-menu">Perfil</span>
             </li>
             <li class="sidebar-item">
-              <a class="sidebar-link" href="./icon-tabler.html" aria-expanded="false">
+              <router-link v-if="permissaoMenuPadraoMixin()" class="sidebar-link" to="/usuario/meus-dados">
+                  <span>
+                    <i class="ti ti-mood-happy"></i>
+                  </span>
+                  <span class="hide-menu">Meus dados</span>
+              </router-link>
+            </li>
+            <li class="sidebar-item">
+              <router-link v-if="permissaoMenuPadraoMixin()" class="sidebar-link" to="/usuario/alterar-senha">
+                  <span>
+                    <i class="ti ti-aperture"></i>
+                  </span>
+                  <span class="hide-menu">Alterar senha</span>
+              </router-link>
+            </li>
+
+            <li class="nav-small-cap">
+              <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
+              <span class="hide-menu">CONFIGURAÇÃO</span>
+            </li>
+            <li class="sidebar-item">
+              <a class="sidebar-link" href="./authentication-login.html" aria-expanded="false">
                 <span>
-                  <i class="ti ti-mood-happy"></i>
+                  <i class="ti ti-login"></i>
                 </span>
-                <span class="hide-menu">Icons</span>
+                <span class="hide-menu">Status</span>
               </a>
             </li>
             <li class="sidebar-item">
-              <a class="sidebar-link" href="./sample-page.html" aria-expanded="false">
+              <a class="sidebar-link" href="./authentication-login.html" aria-expanded="false">
                 <span>
-                  <i class="ti ti-aperture"></i>
+                  <i class="ti ti-login"></i>
                 </span>
-                <span class="hide-menu">Sample Page</span>
+                <span class="hide-menu">Permissão</span>
               </a>
             </li>
+
+            <!--
+            <li class="nav-small-cap">
+              <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
+              <span class="hide-menu">SUPORTE</span>
+            </li>
+            <li class="sidebar-item">
+              <a class="sidebar-link" href="./authentication-login.html" aria-expanded="false">
+                <span>
+                  <i class="ti ti-login"></i>
+                </span>
+                <span class="hide-menu">Contato</span>
+              </a>
+            </li>
+            -->
           </ul>
-          <div class="unlimited-access hide-menu bg-light-primary position-relative mb-7 mt-5 rounded">
-            <div class="d-flex">
-              <div class="unlimited-access-title me-3">
-                <h6 class="fw-semibold fs-4 mb-6 text-dark w-85">Upgrade to pro</h6>
-                <a href="https://adminmart.com/product/modernize-bootstrap-5-admin-template/" target="_blank" class="btn btn-primary fs-2 fw-semibold lh-sm">Buy Pro</a>
-              </div>
-              <div class="unlimited-access-img">
-                <img src="../assets/images/backgrounds/rocket.png" alt="" class="img-fluid">
-              </div>
-            </div>
-          </div>
+         
         </nav>
         <!-- End Sidebar navigation -->
       </div>
@@ -138,7 +172,10 @@
 export default {
   name: 'MenuLayout',
   methods: {
-    
+    closeSidebar(){
+        document.body.classList.remove('sidenav-toggled');
+        localStorage.removeItem('sb|sidebar-toggle');
+    }
    
   },
   mounted(){

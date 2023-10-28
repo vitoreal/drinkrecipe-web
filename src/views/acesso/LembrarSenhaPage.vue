@@ -7,7 +7,7 @@
                   <div class="col-lg-5">
                       <!-- Basic login form-->
                       <div class="card shadow-lg border-0 rounded-lg mt-5">
-                          <img src="../assets/images/uploads/logo/logo.jpg" /> 
+                          <img src="@/assets/images/logos/DrinkRecipeLogo.png" /> 
                           <div class="card-body">
                               <h4 class="my-4">Lembrar Senha</h4>
                           
@@ -118,7 +118,7 @@ export default {
             }
         });
         
-        if(this.checkIsUndefined(response)){
+        if(this.checkIsUndefinedMixin(response)){
           if(response.data.type == 'SUCESSO'){
               this.msgSistema = response.data.mensagem;
               this.tipoMsgSistema = 'alert-success';

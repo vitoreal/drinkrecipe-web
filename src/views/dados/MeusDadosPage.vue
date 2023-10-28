@@ -18,9 +18,9 @@
             </div>
             
             <div class="mb-3 row">
-              <label for="inputEmail3" class="col-sm-2 col-form-label">{{ tipoDoc }}</label>
+              <label for="inputEmail3" class="col-sm-2 col-form-label">CPF</label>
               <div class="col-sm-5">
-                <input class="form-control" v-model="state.documento" v-mask="[ tipoMask]" />
+                <input class="form-control" v-model="state.documento" v-mask="[ '###.###.###-##' ]" />
               </div>
               <label class="error" v-if="v$.documento.$error">{{ v$.documento.$errors[0].$message }}</label>
             </div>
@@ -121,7 +121,7 @@ export default {
             }
         });
 
-        if(this.checkIsUndefined(response)){
+        if(this.checkIsUndefinedMixin(response)){
           if(response.data.type == 'SUCESSO'){
             this.msgSistema = response.data.mensagem;
             this.tipoMsgSistema = 'alert-success';
@@ -135,9 +135,9 @@ export default {
     },
     async buscarMeusDados() {
       
-      this.checkAuthToken(this.axios);
+      this.checkAuthTokenMixin(this.axios);
 
-      await this.axios.get('buscar-meus-dados').then((response)=>{
+      await this.axios.get('usuario/buscar-meus-dados').then((response)=>{
           //this.users = response.data.users
           this.state.nome = response.data.user.name;
           this.state.telefone = response.data.telefone;

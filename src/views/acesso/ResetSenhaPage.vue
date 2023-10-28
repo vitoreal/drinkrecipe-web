@@ -152,7 +152,7 @@ export default {
         });
         
           
-        if(this.checkIsUndefined(response)){
+        if(this.checkIsUndefinedMixin(response)){
           
           if(response.data.type == 'SUCESSO'){
             

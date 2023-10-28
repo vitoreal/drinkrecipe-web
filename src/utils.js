@@ -5,23 +5,16 @@ const utilsMixin = {
         }
       },
     methods: {
-        permissaoMenuAdvogado(){
+        permissaoMenuRootMixin(){
         
-            var rolePerm = ['ROOT_ADMIN', 'SUPER_ADMIN', 'EMPRESA_ADMIN'];
+            var rolePerm = ['ROOT_ADMIN'];
+
             if(rolePerm.includes(this.role)){
                 return true;
             }
             return false;
         },
-        permissaoMenuCliente(){
-            
-            var rolePerm = ['ROOT_ADMIN', 'SUPER_ADMIN', 'EMPRESA_ADMIN', 'ADVOGADO_ADMIN', 'CLIENTE_ADMIN'];
-            if(rolePerm.includes(this.role)){
-                return true;
-            }
-            return false;
-        },
-        permissaoMenuAdmin(){
+        permissaoMenuSuperAdminMixin(){
             
             var rolePerm = ['ROOT_ADMIN', 'SUPER_ADMIN'];
             if(rolePerm.includes(this.role)){
@@ -29,15 +22,23 @@ const utilsMixin = {
             }
             return false;
         },
-        permissaoEmpresaAdvogado(){
+        permissaoMenuPadraoMixin(){
             
-            var rolePerm = ['ROOT_ADMIN', 'SUPER_ADMIN', 'EMPRESA_ADMIN', 'ADVOGADO_ADMIN'];
+            var rolePerm = ['ROOT_ADMIN', 'SUPER_ADMIN', 'USER_PADRAO'];
             if(rolePerm.includes(this.role)){
                 return true;
             }
             return false;
         },
-        checkIsUndefined (variable) {
+        logoutMixin() {
+      
+            localStorage.removeItem('token');
+            this.$store.dispatch('user', null);
+            localStorage.removeItem('user');
+            this.axios.post('logout');
+            this.$router.push('/');
+        },
+        checkIsUndefinedMixin (variable) {
      
             if(typeof(variable) != 'undefined' && variable != null && variable !== undefined){
                 return true;
@@ -45,7 +46,7 @@ const utilsMixin = {
             return false;
 
         },
-        checkAuthToken (axios) {
+        checkAuthTokenMixin (axios) {
         
             var AUTH_TOKEN = '';
 

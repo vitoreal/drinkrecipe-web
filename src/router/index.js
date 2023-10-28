@@ -4,13 +4,13 @@ import axios from 'axios'
 import VueAxios from 'vue-axios'
 
 // Paginas de acesso
-import LoginPage from './../views/base/LoginPage.vue';
-import RegistrarPage from './../views/base/RegistrarPage.vue';
-import LembrarSenha from './../views/base/LembrarSenhaPage.vue';
-import ResetSenha from './../views/base/ResetSenhaPage.vue';
+import LoginPage from './../views/acesso/LoginPage.vue';
+import RegistrarPage from './../views/acesso/RegistrarPage.vue';
+import LembrarSenha from './../views/acesso/LembrarSenhaPage.vue';
+import ResetSenha from './../views/acesso/ResetSenhaPage.vue';
 
 // Pagina principal
-import HomePage from './../views/base/HomePage.vue';
+import HomePage from './../views/acesso/HomePage.vue';
 
 // Paginas do sistema - DADOS
 import MeusDadosPage from './../views/dados/MeusDadosPage.vue';
@@ -32,8 +32,8 @@ const routes = [
   { path: '/home/:idUser', name: 'HomePageGoogleAuth', component: HomePage, beforeEnter: checkGoolgeAuthAll },
 
   // MEUS DADOS
-  { path: '/dados/meus-dados', name: 'MeusDadosPage', component: MeusDadosPage },  
-  { path: '/dados/alterar-senha', name: 'AlterarSenhaPage', component: AlterarSenhaPage },  
+  { path: '/usuario/meus-dados', name: 'MeusDadosPage', component: MeusDadosPage, beforeEnter: checkAuthAll },  
+  { path: '/usuario/alterar-senha', name: 'AlterarSenhaPage', component: AlterarSenhaPage, beforeEnter: checkAuthAll },  
 ]
 
 const router = createRouter({

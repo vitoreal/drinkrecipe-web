@@ -40,7 +40,7 @@ app.component('box-mensagem-sistema', BoxMensagemSistema);
 app.component('loading-bar', LoadingBar);
 app.component('font-awesome-icon', FontAwesomeIcon);
 
-app.config.globalProperties.nomeSistema = 'Receitas de Drinks Online';
+app.config.globalProperties.nomeSistema = 'Segurança - Login';
 
 app.config.globalProperties.urlUpload = '../assets/images/uploads/'
 
